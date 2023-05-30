@@ -1,0 +1,61 @@
+
+spring:
+  security:
+    oauth2:
+      resource-server:
+        opaque-token:
+          introspection-uri: http://localhost:8080/realms/test/protocol/openid-connect/token/introspect
+          client-id: app
+          client-secret: 2UGmedBr6tHT7rDwQIKvfGuqNNBzU38U
+  datasource:
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/postgres
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: Hikari
+      validation-timeout: 1000
+  application:
+    name: RecruiterMainApi
+  jpa:
+    open-in-view: false
+    properties:
+      javax:
+        persistence:
+          shared-cache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        show_sql: true
+        generate_statistics: true
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 50000
+          fetch_size: 1000
+        session:
+          events:
+            log:
+              LOG_QUERIES_SLOWER_THAN_MS: 1
+        search:
+          backend:
+            analysis:
+              configurer: com.recruitercorp.bean.MyAnalysisConfigurer
+            directory:
+              type: local-filesystem
+              root: D:/apache_lucene/recruitery
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: true
+keycloak:
+  auth-server-url: http://localhost:8080
+  credentials:
+    secret: 2UGmedBr6tHT7rDwQIKvfGuqNNBzU38U
+  realm: test
+  use-resource-role-mappings: 'true'
+  ssl-required: none
+  resource: app
+server:
+  port: 9000
